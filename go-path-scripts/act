@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Author : sb
+# Brief : Script to use differennt GOPATH locations based on the specific project
+
+# Mon, 22 Apr 2019 00:58:50 +0530: Here's to hoping that some people would actually
+# benefit from this script
+
+activate()
+{
+	GOPATH=$(pwd)
+	echo "Activating : \$GOPATH -> $GOPATH"
+	PATH=$GOPATH/bin:$PATH
+	LGDIR="${PWD##*/}"
+	PS1=($LGDIR):$PS1
+}
+
+deactivate()
+{
+	if [ -z "$GOPATH" ]
+	then
+		echo "\$GOPATH is empty"
+	else
+		echo "Deactivating : \$GOPATH -> $GOPATH"
+		unset GOPATH
+	fi
+	if [ -z "$LGDIR" ]
+	then
+		echo "\$LGDIR is empty"
+	else
+		unset LGDIR
+	fi
+	source $HOME/.bashrc
+}
+
+# default action - activate the project
+activate

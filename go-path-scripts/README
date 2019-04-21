@@ -1,0 +1,6 @@
+#### Usage Instructions for setting GOPATH specific to the project.
+
+Please place either *activate-deactivate* pair of files in the directory and source them. Sourcing the activate file would activate the GOPATH and deactivate would reset that accordingly.
+
+If one wishes to reduce that hurdle, once can also use the single file *act* which does the same function.
+In order for setting the GOPATH to that specific project, just source the file. Deactivate command is available in order to deactivate the GOPATH set.
