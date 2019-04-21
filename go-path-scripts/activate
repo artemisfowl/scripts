@@ -1,0 +1,7 @@
+#!/bin/bash
+
+GOPATH=$(pwd)
+echo "Activating : \$GOPATH -> $GOPATH"
+PATH=$GOPATH/bin:$PATH
+LGDIR="${PWD##*/}"
+PS1=($LGDIR):$PS1
