@@ -8,7 +8,7 @@
 
 activate()
 {
-	GOPATH=$(pwd)
+	export GOPATH=$(pwd)
 	echo "Activating : \$GOPATH -> $GOPATH"
 	PATH=$GOPATH/bin:$PATH
 	LGDIR="${PWD##*/}"
