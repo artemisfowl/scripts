@@ -154,8 +154,7 @@ cr_dir() {
 # function : create_std_dir
 # brief : function to create the standard directory structure in the new environment
 create_std_dir() {
-  # code will be added shortly
-  # first create the basic directory
+  # creating the basic directories
   cd "$1"
   mkdir -p "$1/data/code/"
   mkdir -p "$1/data/programs/"
@@ -195,14 +194,15 @@ create_std_dir() {
   local games_sub_dirs=( AAA indie )
 
   # transmission component sub directories
-  local transmission_sub_dirs=( games misc mvc OS )
+  local transmission_sub_dirs=( games misc mvc OS tv )
 
   # youtube component sub directories
   local youtube_sub_dirs=( misc music_videos tut_videos )
 
-  # now let's make the directories - let's hope that this works out
+  # now let's make the directories
   # the function for creating the directories will take in an array for looping through the directory names
   # the other parameter would be the location where the sub directories would be created
+	print_info "Creating code directory and subdirectories"
   cr_dir "$1/data/code" "${code_sub_dirs[@]}"
   cr_dir "$1/data/code/commit" "${commit_sub_dir[@]}"
   cr_dir "$1/data/code/commit/bitbucket" "${bitbucket_sub_dirs[@]}"
@@ -211,8 +211,12 @@ create_std_dir() {
   cr_dir "$1/data/code/test_bed/skunkworks/venv" "${venv_sub_dirs[@]}"
   cr_dir "$1/data/code/test_bed/standalone" "${standalone_sub_dirs[@]}"
   cr_dir "$1/data/code/test_bed/standalone/javascript" "${js_sub_dirs[@]}"
+
+	print_info "Creating programs directory and subdirectories"
   cr_dir "$1/data/programs" "${programs_sub_dirs[@]}"
   cr_dir "$1/data/programs/repo_clone" "${repo_clone_sub_dirs[@]}"
+
+	print_info "Creating storage directory and subdirectories"
   cr_dir "$1/data/storage" "${storage_sub_dirs[@]}"
   cr_dir "$1/data/storage/games" "${games_sub_dirs[@]}"
   cr_dir "$1/data/storage/transmission" "${transmission_sub_dirs[@]}"
