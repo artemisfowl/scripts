@@ -372,17 +372,17 @@ setup_plugs_dots() {
 # brief : function to set up the programs based on priority and requirement
 setup_progs() {
   # let's make the arrays according to the requirement
-  local apt_install_arr=( git ranger tmux irssi g++ clang neovim axel synaptic vlc alpine gnome-tweak-tool python python-pip python3-pip )
-  # NOTE : gnome-tweak-tool will be required for Ubuntu 18.04 Bionic Beaver.
+  local apt_install_arr=( git mc tmux irssi g++ clang neovim axel synaptic vlc alpine gnome-tweak-tool python python-pip python3-pip )
+  # NOTE : gnome-tweak-tool will be required for Ubuntu 18.04 Bionic Beaver/PopOS as well.
   # NOTE : Because I require python 2.x also installed in my system. Installing the python package will install python2.7 base
   # in the system. Also pip will be required for both Python 3.x and 2.x
   local build_source_arr=( vim ag )
-  local vim_deps=( libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev
-  python3-dev ruby-dev lua5.1 liblua5.1-0-dev libperl-dev )
+  local vim_deps=( libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev libperl-dev )
+
+	# silversearcher dependencies
   local ag_deps=( automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev )
-  local pip_install_arr=( rainbowstream )
-  # not required at this very moment - maybe for something else it will be required
-  #local ppa_arr=( neovim )
+
+	# for LaTeX
   local packages_arr=( texlive-full )
 
   # aptitude packages installation
@@ -431,7 +431,9 @@ setup_progs() {
   done
   print_sep
 
-  # now copy and set up the vim plugins
+	# setting up the plugins should be a separate function
+
+  # now copy and set up the vim plugins - this is where the work should start
   dotfile_url="https://sayantan_bhattacharya@bitbucket.org/sayantan_bhattacharya/dotfiles.git"
   # call the function for setting up the dotfiles and plugins
   setup_plugs_dots "$dotfile_url"
