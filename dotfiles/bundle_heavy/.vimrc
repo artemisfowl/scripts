@@ -169,7 +169,8 @@ if has("gui_running")
     set guioptions-=T
     "Terminus is AWESOME
     "set guifont=Anonymous\ Pro\ for\ Powerline\ 12
-    set guifont=Hack\ Regular\ 8
+    "set guifont=Hack\ Regular\ 8
+    set guifont=SF\ Mono\ Powerline\ Semibold\ 8
     let g:airline_powerline_fonts=1
     let g:airline_theme='powerlineish'
 else
@@ -426,16 +427,16 @@ let g:tmuxline_separators = {
 
 " Putting the OpenSession command to an alias - too much hassle to type this
 " big a command
-cnoreabbrev os OpenSession
+"cnoreabbrev os OpenSession
 
 " Adding Thesaurus mode kepmaps
 nnoremap <F9> :OnlineThesaurusCurrentWord<CR>
 " Adding git custom command in here
-cnoreabbrev gs Gstatus
-cnoreabbrev gc Gcommit
-cnoreabbrev gp Gpush
-cnoreabbrev gl Gpull
-cnoreabbrev gw Gwrite
+"cnoreabbrev gs Gstatus
+"cnoreabbrev gc Gcommit
+"cnoreabbrev gp Gpush
+"cnoreabbrev gl Gpull
+"cnoreabbrev gw Gwrite
 
 " Search down into sub-directories and provide auto-completion for all file
 " related tasks
@@ -455,43 +456,43 @@ augroup END
 
 augroup cc
         autocmd BufRead,BufNewFile *.h,*.c set filetype=c
-        autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 expandtab textwidth=79
+        autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 expandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup cp
         autocmd BufRead,BufNewFile *.hpp,*.cpp set filetype=cpp
-        autocmd FileType cpp set colorcolumn=120 tabstop=2 shiftwidth=2 expandtab textwidth=119
+        autocmd FileType cpp set colorcolumn=120 tabstop=2 shiftwidth=2 expandtab nocursorcolumn textwidth=119
 augroup END
 
 augroup python
         autocmd BufRead,BufNewFile *.py set filetype=python
-        autocmd FileType python set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab textwidth=79
+        autocmd FileType python set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup go
         autocmd BufRead,BufNewFile *.go set filetype=go
-        autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab textwidth=79
+        autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup ruby
         autocmd BufRead,BufNewFile *.rb set filetype=ruby
-        autocmd FileType ruby set colorcolumn=80 tabstop=8 shiftwidth=8 expandtab textwidth=79
+        autocmd FileType ruby set colorcolumn=80 tabstop=8 shiftwidth=8 expandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup tex
         autocmd BufRead,BufNewFile *.tex set filetype=tex
-        autocmd FileType tex set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab cursorcolumn textwidth=79
+        autocmd FileType tex set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup lisp
         autocmd BufRead,BufNewFile *.lisp set filetype=lisp
-        autocmd FileType lisp set colorcolumn=120 tabstop=8 shiftwidth=8 expandtab textwidth=119
+        autocmd FileType lisp set colorcolumn=120 tabstop=8 shiftwidth=8 expandtab nocursorcolumn textwidth=119
 				"autocmd FileType lisp let b:delimitMate_autoclose = 0
 augroup END
 
 " Adding the time addition shortcut
-:nnoremap <F10> "=strftime("%a, %d %b %Y %H:%M:%S %z") . ": "<CR>P
-:inoremap <F10> <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z") . ": "<CR>
+:nnoremap <F10> "=strftime("%a, %d %b %Y %H:%M:%S %z") . " "<CR>P
+:inoremap <F10> <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z") . " "<CR>
 
 " Setting up F3 to open a terminal with a vertical split
 set splitright " open the split on the right hand side always
@@ -514,4 +515,5 @@ if has("gui_gtk2") && has("gui_running")
 	set belloff=all
 endif
 
-" check if the term debug package to vim
+" OpenSession command shortcut
+"nnoremap <C-H> :OpenSession
