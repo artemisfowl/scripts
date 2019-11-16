@@ -383,7 +383,10 @@ setup_plugs_dots() {
 
 	# start creating the locations for the vim plugins
 	local vim_config_dir=( .vim )
-	local vim_config_subdir=( bundle )	# Sat, 16 Nov 2019 05:44:52 +0530 : Start working from this part
+	local vim_config_subdir=( bundle )	# Sat, 16 Nov 2019 05:44:52 +0530 : START WORKING FROM THIS PART
+
+	cr_dir "$HOME" ${vim_config_dir[@]}
+	cr_dir "$HOME/.vim/" ${vim_config_subdir[@]}
 }
 
 # function : setup_progs()
