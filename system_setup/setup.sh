@@ -351,21 +351,39 @@ install_ag() {
 # brief : function to set up the dot files as well as the vim plugins
 # params : [in] dotfile url - the files need to be cloned from this repository
 setup_plugs_dots() {
-  print_warning"$1"
+  print_info "[Git] Getting configuration files and scripts from : $1"
   initial_location="$(pwd)"
-  desired_location="$(pwd)/data/programs/repo_clone/git/sb_personal_conf/"
+  desired_location="$(pwd)/data/programs/repo_clone/git/sb_personal_configs/"
   # change the directory to the location where all the cloning will take place
-  mkdir -p "$dedsired_location"
+  mkdir -p "$desired_location"
   cd "$desired_location"
   git clone "$1"
 
-  # now copy the files from this directory and get them set up
+  # now copy the files from this directory and get them set up - this needs to be changed a bit
+	# assuming that it is inside desired_location - need to go inside the directory of scripts/dotfiles/bundle_heavy
+	# bundle_heavy since this is a system core setup script
+	cd "$desired_location/scripts/dotfiles/bundle_heavy"
+	print_info "[vim] Copying bundle heavy vim configuration to home directory of current user"
   cp ./.vimrc "$HOME"
+
+	print_info "[tmux] Copying tmux configuration file to home directory of current user"
+	cd "$desired_location/dotfiles/"
   cp ./.tmux.conf "$HOME"
+
+	# print the detail that the custom status bar configuration file can be found in which location
+	print_info "[tmux-advanced] The custom statusbar configuration of tmux can be found in $desired_location/dotfiles/multiplexer_custom_sbar"
+
+	# copying the screen configuration file to the home directory for the current user
+	print_info "[screen] Copying screen configuration file to home directory of current user"
+  cp ./.screenrc "$HOME"
 
   # edit the next bashrc from the one that is already present - default created in the installation
   # finally return back to the initial location
   cd "$initial_location"
+
+	# start creating the locations for the vim plugins
+	local vim_config_dir=( .vim )
+	local vim_config_subdir=( bundle )	# Sat, 16 Nov 2019 05:44:52 +0530 : Start working from this part
 }
 
 # function : setup_progs()
@@ -431,10 +449,8 @@ setup_progs() {
   done
   print_sep
 
-	# setting up the plugins should be a separate function
-
-  # now copy and set up the vim plugins - this is where the work should start
-  dotfile_url="https://sayantan_bhattacharya@bitbucket.org/sayantan_bhattacharya/dotfiles.git"
+  # now copy and set up the vim plugins - change the link for the dotfiles and figure out a way for getting the right system name
+  dotfile_url="https://github.com/artemisfowl/scripts.git"
   # call the function for setting up the dotfiles and plugins
   setup_plugs_dots "$dotfile_url"
 }
