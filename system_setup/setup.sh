@@ -383,10 +383,24 @@ setup_plugs_dots() {
 
 	# start creating the locations for the vim plugins
 	local vim_config_dir=( .vim )
-	local vim_config_subdir=( bundle )	# Sat, 16 Nov 2019 05:44:52 +0530 : START WORKING FROM THIS PART
+	local vim_config_subdir=( bundle colors )
 
+	print_info "[vim-setup] Setting vim configuration directories"
 	cr_dir "$HOME" ${vim_config_dir[@]}
 	cr_dir "$HOME/.vim/" ${vim_config_subdir[@]}
+
+	# set up Vundle
+	print_info "[vim-setup] Setting up Vim plugin manager - Vundle"
+	print_info "[vim-setup] navigating to bundle directory"
+	cd "$HOME/.vim/bundle"
+	print_info "[vim-setup] Cloning the Vundle plugin manager from git"
+	vundle_git_loc="https://github.com/VundleVim/Vundle.vim.git"
+	git clone "$vundle_git_loc"
+
+	print_info "[vim-setup] Initiating plugin installs"
+	vim +BundleInstall +qall
+
+	# Tue, 19 Nov 2019 02:36:00 +0530 : Now to start beuilding YCM for Vim
 }
 
 # function : setup_progs()
