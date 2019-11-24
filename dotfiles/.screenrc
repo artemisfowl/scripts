@@ -3,7 +3,7 @@
 #hardstatus string "%w"
 #hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W} %c %{g}]'
 
-#escape ^Bb
+escape ^Bb
 startup_message off
 
 # if we accidentally hangup, don't be all attached when we come back.
@@ -33,3 +33,8 @@ defflow off
 
 #rvm needs this
 shell -${SHELL}
+
+# disabling the screen flash
+vbell on
+vbell_msg ''
+termcapinfo * vb=:
