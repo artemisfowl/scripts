@@ -400,14 +400,16 @@ setup_plugs_dots() {
 	print_info "[vim-setup] Initiating plugin installs"
 	vim +BundleInstall +qall
 
-	# Tue, 19 Nov 2019 02:36:00 +0530 : Now to start beuilding YCM for Vim
+	# Tue, 19 Nov 2019 02:36:00 +0530 : Now to start building YCM for Vim
+	cd "$HOME/.vim/bundle/YouCompleteMe"
+	# perform the recusive module cloning command
 }
 
 # function : setup_progs()
 # brief : function to set up the programs based on priority and requirement
 setup_progs() {
   # let's make the arrays according to the requirement
-  local apt_install_arr=( git mc tmux irssi g++ clang neovim axel synaptic vlc alpine gnome-tweak-tool python python-pip python3-pip )
+  local apt_install_arr=( git mc tmux irssi g++ clang neovim axel synaptic vlc alpine gnome-tweak-tool python python-pip python3-pip  ranger )
   # NOTE : gnome-tweak-tool will be required for Ubuntu 18.04 Bionic Beaver/PopOS as well.
   # NOTE : Because I require python 2.x also installed in my system. Installing the python package will install python2.7 base
   # in the system. Also pip will be required for both Python 3.x and 2.x
