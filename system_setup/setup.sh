@@ -400,9 +400,27 @@ setup_plugs_dots() {
 	print_info "[vim-setup] Initiating plugin installs"
 	vim +BundleInstall +qall
 
-	# Tue, 19 Nov 2019 02:36:00 +0530 : Now to start building YCM for Vim
+	print_info "[YCM-setup] Initiating YouCompleteMe third-party recursive pull"
 	cd "$HOME/.vim/bundle/YouCompleteMe"
-	# perform the recusive module cloning command
+	git submodule update --init --recursive
+
+	print_info "[YCM-setup] Initiating YouCompleteMe build - building only for C/C++"
+	./install.py --clang-completer
+
+	# copy the ycm extra file to the home directory
+	print_info "[YCM-setup] Copying YCM Extra Configuration file to user's home directory"
+	cp "./third_party/ycmd/.ycm_extra_conf.py" "$HOME"
+
+	print_info "[vim-setup] navigating to bundle directory"
+	cd "$HOME/.vim/bundle"
+
+	print_info "[vim-setup] starting clone of CtrlP plugin"
+	ctrlp_git_loc="https://github.com/kien/ctrlp.vim.git"
+	git clone "$ctrlp_git_loc"
+
+	# return to the previous directory
+	cd "$HOME"
+	pwd	# print the working directory currently it is in
 }
 
 # function : setup_progs()
