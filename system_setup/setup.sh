@@ -440,7 +440,7 @@ setup_plugs_dots() {
 # brief : function to set up the programs based on priority and requirement
 setup_progs() {
   # let's make the arrays according to the requirement
-  local apt_install_arr=( git mc tmux irssi g++ clang neovim axel synaptic vlc alpine gnome-tweak-tool python python-pip python3-pip  ranger gnome-shell-extensions cmus valgrind )
+  local apt_install_arr=( git mc tmux irssi g++ clang neovim axel synaptic vlc alpine gnome-tweak-tool python python-pip python3-pip  ranger gnome-shell-extensions cmus valgrind exuberant-ctags )
   # NOTE : gnome-tweak-tool will be required for Ubuntu 18.04 Bionic Beaver/PopOS as well.
   # NOTE : Because I require python 2.x also installed in my system. Installing the python package will install python2.7 base
   # in the system. Also pip will be required for both Python 3.x and 2.x
