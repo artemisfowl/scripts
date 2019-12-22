@@ -429,14 +429,18 @@ setup_plugs_dots() {
 	./install.sh
 
 	print_info "[sf-mono-font-setup] setting up SF Mono patched fonts for powerline"
-	# write the next part of the code from here
+	cd "$HOME/data/programs/repo_clone/git"
+	sf_font_git_loc="https://github.com/Twixes/SF-Mono-Powerline.git"
+	git clone "$sf_font_git_loc"
+	# Mon, 23 Dec 2019 01:28:41 +0530 : copy the directories and files in the required location and then rebuild the
+	# font cache
 }
 
 # function : setup_progs()
 # brief : function to set up the programs based on priority and requirement
 setup_progs() {
   # let's make the arrays according to the requirement
-  local apt_install_arr=( git mc tmux irssi g++ clang neovim axel synaptic vlc alpine gnome-tweak-tool python python-pip python3-pip  ranger gnome-shell-extensions cmus )
+  local apt_install_arr=( git mc tmux irssi g++ clang neovim axel synaptic vlc alpine gnome-tweak-tool python python-pip python3-pip  ranger gnome-shell-extensions cmus valgrind )
   # NOTE : gnome-tweak-tool will be required for Ubuntu 18.04 Bionic Beaver/PopOS as well.
   # NOTE : Because I require python 2.x also installed in my system. Installing the python package will install python2.7 base
   # in the system. Also pip will be required for both Python 3.x and 2.x
