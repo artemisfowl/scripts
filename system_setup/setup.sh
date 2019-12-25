@@ -433,7 +433,26 @@ setup_plugs_dots() {
 	sf_font_git_loc="https://github.com/Twixes/SF-Mono-Powerline.git"
 	git clone "$sf_font_git_loc"
 	# Mon, 23 Dec 2019 01:28:41 +0530 : copy the directories and files in the required location and then rebuild the
-	# font cache
+	# font cache - the files have to be copied to "$HOME/.local/share/fonts"
+
+	# navigate inside the directory which has been cloned
+	print_info "[sf-mono-font-setup] Naviagting inside cloned directory"
+	cd "SF-Mono-Powerline"
+
+	# copy all the files from this directory to the required directory
+	patched_font_location="$HOME/.local/share/fonts"
+	file_arr=file_arr=( $(ls -l | awk '{print $9'} | grep otf) )
+
+	# iterate the array and get the data
+	for i in "${file_arr[@]}"
+	do
+		# now copy the files from one location to the desired location
+		cp "$i" "$patched_font_location"
+	done
+
+	# rebuild the font cache
+	cd "$HOME"
+	fc-cache -vf
 }
 
 # function : setup_progs()
