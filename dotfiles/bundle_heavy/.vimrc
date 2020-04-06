@@ -1,5 +1,5 @@
 " Vim configuration file[REVISED]
-" (c) 2013 - 2018
+" (c) 2013 - 2019
 
 " set the filetype off before setting the package manager
 filetype off
@@ -20,7 +20,7 @@ Bundle 'xolox/vim-session'
 Bundle 'xolox/vim-misc'
 Bundle 'bling/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
-"Bundle 'edkolev/tmuxline.vim'
+Bundle 'edkolev/tmuxline.vim'
 Bundle 'vim-scripts/Tagbar'
 Bundle 'beloglazov/vim-online-thesaurus'
 Bundle 'machakann/vim-highlightedyank'
@@ -99,6 +99,9 @@ set undodir=~/.vim/tmp/undo//
 set undofile
 set history=100
 set undolevels=100
+if has('python3')
+	let g:gundo_prefer_python3 = 1 " For Vim built with -python and +python3
+endif
 
 " Vim-session management settings
 let g:session_directory = "~/.vim/session"
@@ -170,7 +173,7 @@ if has("gui_running")
     "Terminus is AWESOME
     "set guifont=Anonymous\ Pro\ for\ Powerline\ 12
     "set guifont=Hack\ Regular\ 8
-    set guifont=SF\ Mono\ Powerline\ Semibold\ 8
+    set guifont=SF\ Mono\ Powerline\ Semibold\ 9
     let g:airline_powerline_fonts=1
     let g:airline_theme='powerlineish'
 else
@@ -357,7 +360,7 @@ command! SmallerFont call SmallerFont()
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " Airline configuration
-" let g:airline_theme='dark'
+let g:airline_theme='wombat'
 "let g:airline#extensions#tabline#enabled = 0
 "let g:airline_powerline_fonts=1
 let g:airline_exclude_preview=1
@@ -456,43 +459,43 @@ augroup END
 
 augroup cc
         autocmd BufRead,BufNewFile *.h,*.c set filetype=c
-        autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 expandtab nocursorcolumn textwidth=79
+        autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup cp
         autocmd BufRead,BufNewFile *.hpp,*.cpp set filetype=cpp
-        autocmd FileType cpp set colorcolumn=120 tabstop=2 shiftwidth=2 expandtab nocursorcolumn textwidth=119
+        autocmd FileType cpp set colorcolumn=120 tabstop=2 shiftwidth=2 noexpandtab nocursorcolumn textwidth=119
 augroup END
 
 augroup python
         autocmd BufRead,BufNewFile *.py set filetype=python
-        autocmd FileType python set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab nocursorcolumn textwidth=79
+        autocmd FileType python set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup go
         autocmd BufRead,BufNewFile *.go set filetype=go
-        autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab nocursorcolumn textwidth=79
+        autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup ruby
         autocmd BufRead,BufNewFile *.rb set filetype=ruby
-        autocmd FileType ruby set colorcolumn=80 tabstop=8 shiftwidth=8 expandtab nocursorcolumn textwidth=79
+        autocmd FileType ruby set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup tex
         autocmd BufRead,BufNewFile *.tex set filetype=tex
-        autocmd FileType tex set colorcolumn=80 tabstop=4 shiftwidth=4 expandtab nocursorcolumn textwidth=79
+        autocmd FileType tex set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup lisp
         autocmd BufRead,BufNewFile *.lisp set filetype=lisp
-        autocmd FileType lisp set colorcolumn=120 tabstop=8 shiftwidth=8 expandtab nocursorcolumn textwidth=119
+        autocmd FileType lisp set colorcolumn=120 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=119
 				"autocmd FileType lisp let b:delimitMate_autoclose = 0
 augroup END
 
 " Adding the time addition shortcut
-:nnoremap <F10> "=strftime("%a, %d %b %Y %H:%M:%S %z") . " "<CR>P
-:inoremap <F10> <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z") . " "<CR>
+:nnoremap <F10> "=strftime("%a, %d %b %Y %H:%M:%S %z") . " : "<CR>P
+:inoremap <F10> <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z") . " : "<CR>
 
 " Setting up F3 to open a terminal with a vertical split
 set splitright " open the split on the right hand side always
@@ -517,3 +520,6 @@ endif
 
 " OpenSession command shortcut
 "nnoremap <C-H> :OpenSession
+
+" Removing underline from the CursorLineNr
+hi CursorLineNr term=bold cterm=bold ctermfg=Yellow gui=bold guifg=Yellow
