@@ -1,0 +1,28 @@
+swipe:
+  3:
+    left:
+      command: "xdotool key alt+ctrl+Right" # History forward
+    right:
+      command: "xdotool key alt+ctrl+Left" # History back
+    up:
+      command: "xdotool key super" # Activity
+    down:
+      command: "xdotool key super" # Activity
+  4:
+    up:
+      command: "xdotool key super+d" # Switch to next workspace
+    down:
+      command: "xdotool key super+d" # Switch to previous workspace
+pinch:
+  in:
+    command: 'xdotool key ctrl+plus'
+  out:
+     command: 'xdotool key ctrl+minus'
+
+threshold:
+  swipe: 0.4
+  pinch: 0.4
+
+interval:
+  swipe: 0.8
+  pinch: 0.1
