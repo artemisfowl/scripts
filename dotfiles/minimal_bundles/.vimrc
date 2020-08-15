@@ -173,6 +173,11 @@ augroup asm
         autocmd FileType asm set colorcolumn=120 tabstop=2 shiftwidth=2 cursorcolumn noexpandtab textwidth=119
 augroup END
 
+augroup javascript
+        autocmd BufRead,BufNewFile *.js set filetype=javascript
+        autocmd FileType javascript set colorcolumn=120 tabstop=2 shiftwidth=2 cursorcolumn noexpandtab textwidth=119
+augroup END
+
 " Adding the time addition shortcut
 :nnoremap <F10> "=strftime("%a, %d %b %Y %H:%M:%S %z") . ": "<CR>P
 :inoremap <F10> <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z") . ": "<CR>
@@ -206,3 +211,9 @@ let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 0
 " Setting the directory for saving the caches
 let g:ctrlp_cache_dir = $HOME.'/.vim/ctrlp_cache/'
+
+" Close the preview window when I am out of the edit mode
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+" Remove trailing whitespace in the file
+autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
