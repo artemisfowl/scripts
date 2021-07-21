@@ -1,6 +1,7 @@
 URxvt.scrollBar:              false
-URxvt.font:			              xft:DejavuSansMono\ Nerd\ Font\ Mono:regular:size=9
-URxvt.internalBorder:		      15
+!URxvt.font:			              xft:DejavuSansMono\ Nerd\ Font\ Mono:regular:size=8
+URxvt.font:			              xft:SF\ Mono\ Powerline:semibold:size=8
+URxvt.internalBorder:		      2
 
 URxvt.perl-ext-common:        default,matcher,resize-font,url-select,keyboard-select
 
@@ -15,7 +16,7 @@ URxvt.keysym.M-o:             perl:keyboard-select:activate
 
 ! special
 *.foreground:   #eceff1
-*.background:   #31313a
+*.background:   #101010
 *.cursorColor:  #eceff1
 
 ! black
