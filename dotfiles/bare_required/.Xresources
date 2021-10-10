@@ -1,6 +1,7 @@
 URxvt.scrollBar:              false
 !URxvt.font:			              xft:DejavuSansMono\ Nerd\ Font\ Mono:regular:size=8
-URxvt.font:			              xft:SF\ Mono\ Powerline:semibold:size=8
+!URxvt.font:			              xft:SF\ Mono\ Powerline:semibold:size=8
+URxvt.font:			              xft:Ubuntu\ Mono:regular:size=9
 URxvt.internalBorder:		      2
 
 URxvt.perl-ext-common:        default,matcher,resize-font,url-select,keyboard-select
