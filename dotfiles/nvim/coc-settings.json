@@ -1,0 +1,10 @@
+{
+  "languageserver": {
+    "golang": {
+      "command": "$GOBIN/gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"]
+    }
+  }
+}
+

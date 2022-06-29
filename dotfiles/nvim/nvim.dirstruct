@@ -1,0 +1,208 @@
+/home/bbsb/.config/nvim
+├── autoload
+└── plugged
+    ├── ag.vim
+    │   ├── autoload
+    │   ├── doc
+    │   └── plugin
+    ├── a.vim
+    │   └── plugin
+    ├── coc.nvim
+    │   ├── autoload
+    │   │   ├── coc
+    │   │   └── health
+    │   ├── bin
+    │   ├── build
+    │   ├── data
+    │   ├── doc
+    │   └── plugin
+    ├── c.vim
+    │   ├── c-support
+    │   │   ├── codesnippets
+    │   │   ├── rc
+    │   │   ├── scripts
+    │   │   ├── templates
+    │   │   └── wordlists
+    │   ├── doc
+    │   ├── ftplugin
+    │   └── plugin
+    ├── gundo.vim
+    │   ├── autoload
+    │   ├── doc
+    │   ├── plugin
+    │   ├── site
+    │   └── tests
+    │       ├── bundled
+    │       │   ├── lh-vim-lib
+    │       │   │   ├── autoload
+    │       │   │   │   └── lh
+    │       │   │   │       ├── buffer
+    │       │   │   │       └── graph
+    │       │   │   ├── doc
+    │       │   │   ├── macros
+    │       │   │   ├── mkVba
+    │       │   │   ├── plugin
+    │       │   │   └── tests
+    │       │   │       └── lh
+    │       │   └── ut
+    │       │       ├── autoload
+    │       │       │   ├── lh
+    │       │       │   └── should
+    │       │       ├── doc
+    │       │       ├── ftplugin
+    │       │       │   └── vim
+    │       │       ├── mkVba
+    │       │       ├── plugin
+    │       │       └── tests
+    │       │           └── lh
+    │       └── vim_test
+    │           ├── autoload
+    │           │   └── lh -> ../../bundled/lh-vim-lib/autoload/lh
+    │           ├── colors
+    │           ├── ftplugin
+    │           │   └── vim -> ../../bundled/ut/ftplugin/vim
+    │           ├── macros
+    │           └── plugin
+    ├── nerdtree
+    │   ├── autoload
+    │   │   └── nerdtree
+    │   ├── doc
+    │   ├── lib
+    │   │   └── nerdtree
+    │   ├── nerdtree_plugin
+    │   ├── plugin
+    │   └── syntax
+    ├── tabular
+    │   ├── after
+    │   │   └── plugin
+    │   ├── autoload
+    │   ├── doc
+    │   └── plugin
+    ├── Tagbar
+    │   ├── autoload
+    │   ├── doc
+    │   ├── plugin
+    │   └── syntax
+    ├── vim-colorschemes
+    │   ├── colors
+    │   └── scripts
+    ├── vim-cppman
+    │   └── ftplugin
+    ├── vim-fugitive
+    │   ├── autoload
+    │   ├── doc
+    │   ├── ftdetect
+    │   ├── ftplugin
+    │   ├── plugin
+    │   └── syntax
+    ├── vim-go
+    │   ├── assets
+    │   ├── autoload
+    │   │   ├── ctrlp
+    │   │   ├── fzf
+    │   │   ├── go
+    │   │   │   ├── lsp
+    │   │   │   └── test-fixtures
+    │   │   │       ├── cmd
+    │   │   │       ├── complete
+    │   │   │       ├── config
+    │   │   │       │   └── buildtags
+    │   │   │       ├── debug
+    │   │   │       │   ├── compilerror
+    │   │   │       │   └── debugmain
+    │   │   │       ├── def
+    │   │   │       ├── fmt
+    │   │   │       │   └── src
+    │   │   │       │       └── imports
+    │   │   │       │           └── vendor
+    │   │   │       │               └── gh.com
+    │   │   │       │                   └── gi
+    │   │   │       │                       └── foo-logging
+    │   │   │       ├── job
+    │   │   │       │   └── dir has spaces
+    │   │   │       ├── lint
+    │   │   │       │   └── src
+    │   │   │       │       ├── errcheck
+    │   │   │       │       │   └── compilererror
+    │   │   │       │       ├── foo
+    │   │   │       │       ├── lint
+    │   │   │       │       │   └── golangci-lint
+    │   │   │       │       │       └── problems
+    │   │   │       │       │           ├── importabs
+    │   │   │       │       │           ├── multiple
+    │   │   │       │       │           └── shadow
+    │   │   │       │       └── vet
+    │   │   │       │           └── compilererror
+    │   │   │       ├── lsp
+    │   │   │       │   ├── fmt
+    │   │   │       │   └── imports
+    │   │   │       ├── package
+    │   │   │       │   └── src
+    │   │   │       │       └── package
+    │   │   │       │           ├── bar
+    │   │   │       │           ├── baz
+    │   │   │       │           └── vendor
+    │   │   │       │               └── foo
+    │   │   │       ├── tags
+    │   │   │       ├── term
+    │   │   │       └── test
+    │   │   │           └── src
+    │   │   │               ├── compilerror
+    │   │   │               ├── example
+    │   │   │               ├── play
+    │   │   │               │   └── mock
+    │   │   │               ├── showname
+    │   │   │               ├── testcompilerror
+    │   │   │               ├── timeout
+    │   │   │               └── veterror
+    │   │   └── unite
+    │   │       └── sources
+    │   ├── compiler
+    │   ├── doc
+    │   ├── ftdetect
+    │   ├── ftplugin
+    │   │   ├── go
+    │   │   └── gomod
+    │   ├── gosnippets
+    │   │   ├── minisnip
+    │   │   ├── snippets
+    │   │   └── UltiSnips
+    │   ├── indent
+    │   ├── plugin
+    │   ├── rplugin
+    │   │   └── python3
+    │   │       └── denite
+    │   │           └── source
+    │   ├── scripts
+    │   ├── syntax
+    │   ├── templates
+    │   └── test
+    ├── vim-highlightedyank
+    │   ├── autoload
+    │   │   ├── highlightedyank
+    │   │   │   └── obsolete
+    │   │   └── vital
+    │   │       └── _highlightedyank
+    │   ├── doc
+    │   ├── plugin
+    │   └── test
+    ├── vim-misc
+    │   ├── autoload
+    │   │   └── xolox
+    │   │       └── misc
+    │   ├── doc
+    │   └── plugin
+    │       └── xolox
+    ├── vim-online-thesaurus
+    │   ├── doc
+    │   ├── plugin
+    │   └── syntax
+    └── vim-session
+        ├── autoload
+        │   └── xolox
+        │       └── session
+        ├── doc
+        ├── plugin
+        └── screenshots
+
+205 directories
