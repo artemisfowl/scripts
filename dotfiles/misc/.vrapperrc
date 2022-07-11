@@ -1,0 +1,9 @@
+imap jj <esc>
+map L $
+map H ^
+set nu rnu
+set autoindent
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
