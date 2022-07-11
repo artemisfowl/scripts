@@ -1,0 +1,7 @@
+[MASTER]
+
+unsafe-load-any-extension=yes
+
+[MESSAGES CONTROL]
+
+disable=W0311, C0116
