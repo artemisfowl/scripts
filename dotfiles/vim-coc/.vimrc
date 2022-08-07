@@ -578,3 +578,6 @@ let g:go_def_mode='~/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/go/b
 let g:go_info_mode='~/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/go/bin/gopls'
 " let g:ycm_log_level = 'debug'
 set completeopt=longest,menu
+
+" Open go-doc in a popup window (Shift+k)
+let g:go_doc_popup_window = 1
