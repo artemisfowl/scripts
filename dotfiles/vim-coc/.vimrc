@@ -32,6 +32,7 @@ Plug 'flazz/vim-colorschemes'
 Plug 'vim-scripts/c.vim'
 Plug 'vim-scripts/a.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'voldikss/vim-floaterm'
 
 call plug#end()
 
@@ -40,8 +41,11 @@ call plug#end()
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      \ coc#pum#next(1)
+inoremap <silent><expr> <S-TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#prev(1)
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -482,6 +486,23 @@ let g:ycm_always_populate_location_list = 1
 let &makeprg = 'if [ -f Makefile ]; then make -C %:p:h $*; else make -C %:p:h/.. $*; fi'
 nnoremap <leader>m :silent make!\|redraw!\|cw<CR>
 
+" Open go-doc in a popup window (S-k)
+let g:go_doc_popup_window = 1
+
+"function! s:ShowDoc()
+	"let syn_id = synID(line('.'), col('.'), 1)
+	"let syn_name = synIDattr(syn_id, "name")
+	"let highlight = synIDattr(synIDtrans(syn_id), "name")
+"
+	"call popup_atcursor(syn_name .. " (" .. highlight .. ")", {
+				"\ 'border': [],
+				"\ })
+"endfunction
+
+function! ShowDoc(timer)
+	:GoDoc
+endfunction
+
 " Setting the color column for specific file types
 augroup any
         autocmd FileType * set tabstop=2 colorcolumn=200 shiftwidth=2 noexpandtab textwidth=199
@@ -505,6 +526,8 @@ augroup END
 augroup go
         autocmd BufRead,BufNewFile *.go set filetype=go
         autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
+				"autocmd CursorMoved * call s:ShowDoc()
+				"let timer = timer_start(5000, 'ShowDoc', {'repeat': -1})
 augroup END
 
 augroup ruby
@@ -528,8 +551,9 @@ augroup END
 :inoremap <F10> <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z") . " : "<CR>
 
 " Setting up F3 to open a terminal with a vertical split
-set splitright " open the split on the right hand side always
-nnoremap <silent> <F3> :vertical terminal<CR>
+"set splitright " open the split on the right hand side always
+"nnoremap <silent> <F3> :vertical terminal<CR>
+nnoremap <silent> <F3> :FloatermToggle<CR>
 
 " More navigation mappings
 "nnoremap <C-j> <C-w>j
@@ -579,5 +603,3 @@ let g:go_info_mode='~/.vim/bundle/YouCompleteMe/third_party/ycmd/third_party/go/
 " let g:ycm_log_level = 'debug'
 set completeopt=longest,menu
 
-" Open go-doc in a popup window (Shift+k)
-let g:go_doc_popup_window = 1
