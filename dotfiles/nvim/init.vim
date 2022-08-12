@@ -33,22 +33,33 @@ Plug 'gauteh/vim-cppman'
 Plug 'flazz/vim-colorschemes'
 Plug 'vim-scripts/c.vim'
 Plug 'vim-scripts/a.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'voldikss/vim-floaterm'
 
 call plug#end()
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
+let g:coc_snippet_next = '<tab>'
+
+" Remap enter while CocCompletion is open in order to get the recent selection
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
+
+" remap for complete to use tab and <cr>
+inoremap <silent><expr> <TAB>
+			\ coc#pum#visible() ? coc#pum#next(1):
+			\ <SID>check_back_space() ? "\<Tab>" :
+			\ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 inoremap <silent><expr> <c-space> coc#refresh()
+
+" CocCompletion color
+hi CocSearch ctermfg=12 guifg=#18A3FF
+hi CocMenuSel ctermbg=109 guibg=#13354A
 
 " -------- General configurartion section --------------------
 " Switch on the plugin and indent
@@ -65,7 +76,7 @@ set nocompatible
 set noswapfile
 
 " CtrlP configuration
-set runtimepath^=~/.vim/bundle/ctrlp.vim
+set runtimepath^=~/.vim/plugged/ctrlp.vim
 " For checking files using CtrlP
 let g:ctrlp_show_hidden = 1
 " Enabling per session caching
@@ -119,7 +130,7 @@ augroup END
 set showcmd
 
 " Gundo plugin configuration
-set undodir=~/.vim/tmp/undo//
+set undodir=~/.config/nvim/tmp/undo/
 set undofile
 set history=100
 set undolevels=100
@@ -128,7 +139,7 @@ if has('python3')
 endif
 
 " Vim-session management settings
-let g:session_directory = "~/.vim/session"
+let g:session_directory = "~/.config/nvim/session"
 let g:session_autoload = "no"
 let g:session_autosave = "yes"
 
@@ -481,6 +492,9 @@ let g:ycm_always_populate_location_list = 1
 let &makeprg = 'if [ -f Makefile ]; then make -C %:p:h $*; else make -C %:p:h/.. $*; fi'
 nnoremap <leader>m :silent make!\|redraw!\|cw<CR>
 
+" Open go-doc in a popup window (S-k)
+let g:go_doc_popup_window = 1
+
 " Setting the color column for specific file types
 augroup any
         autocmd FileType * set tabstop=2 colorcolumn=200 shiftwidth=2 noexpandtab textwidth=199
@@ -527,8 +541,9 @@ augroup END
 :inoremap <F10> <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z") . " : "<CR>
 
 " Setting up F3 to open a terminal with a vertical split
-set splitright " open the split on the right hand side always
-nnoremap <silent> <F3> :vertical terminal<CR>
+"set splitright " open the split on the right hand side always
+"nnoremap <silent> <F3> :vertical terminal<CR>
+nnoremap <silent> <F3> :FloatermToggle<CR>
 
 " More navigation mappings
 "nnoremap <C-j> <C-w>j
