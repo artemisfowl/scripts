@@ -1,10 +1,11 @@
 {
-  "languageserver": {
-    "golang": {
-      "command": "$GOBIN/gopls",
-      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
-      "filetypes": ["go"]
-    }
-  }
+	"clangd.fallbackFlags": [ "-std=c++17" ],
+	"languageserver": {
+		"golang": {
+			"command": "$GOBIN/gopls",
+			"rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+			"filetypes": ["go"]
+		}
+	}
 }
 
