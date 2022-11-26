@@ -1,0 +1,12 @@
+{
+	"venvPath": "~/data/code/test_bed/skunkworks/nvim/python/",
+	"venv": "genv",
+	"python.linting.pylintArgs": [
+		"--extension-pkg-whitelist=pygame",
+		"--unsafe-load-any-extension=yes",
+		"global-statement"
+	],
+	"typeCheckingMode": "off",
+	"reportMissingImports": true,
+  "reportMissingTypeStubs": false
+}
