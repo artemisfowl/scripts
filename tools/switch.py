@@ -41,11 +41,6 @@ LINK_ICON = "\U0001F517"
 RIGHT_ARROW_ICON = "\U000021A0"
 CHECK_ICON = "\U0001F5F8"
 
-"""
-Temporary Requirement gathering section:
-    - Allow for adding command line arguments [done]
-    - Check presence of necessary directories
-"""
 
 class Paths(Enum):
     CHAD_DPATH = f"{Path.home()}{sep}.config/nvim.chad"
