@@ -50,7 +50,19 @@ Temporary Requirement gathering section:
 class Paths(Enum):
     CHAD_DPATH = f"{Path.home()}{sep}.config/nvim.chad"
     NVIM_DPATH = f"{Path.home()}{sep}.config/nvim.vim"
+
+    CHAD_SHARE_DPATH = f"{Path.home()}{sep}.local/share/nvim.chad"
+    CHAD_STATE_DPATH = f"{Path.home()}{sep}.local/state/nvim.chad"
+    CHAD_CACHE_DPATH = f"{Path.home()}{sep}.cache/nvim.chad"
+
+    NVIM_SHARE_DPATH = f"{Path.home()}{sep}.local/share/nvim.vim"
+    NVIM_STATE_DPATH = f"{Path.home()}{sep}.local/state/nvim.vim"
+    NVIM_CACHE_DPATH = f"{Path.home()}{sep}.cache/nvim.vim"
+
     SYMLINK_FPATH = f"{Path.home()}{sep}.config/nvim"
+    SYMLINK_SHARE_FPATH = f"{Path.home()}{sep}.local/share/nvim"
+    SYMLINK_STATE_FPATH = f"{Path.home()}{sep}.local/state/nvim"
+    SYMLINK_CACHE_FPATH = f"{Path.home()}{sep}.cache/nvim"
 
 
 class ConfigType(Enum):
@@ -99,6 +111,7 @@ def check_and_link(config_type: ConfigType) -> bool:
         # if the condition does not match, create the symlink
         print(f"{LINK_ICON} : Recreating link : {Paths.SYMLINK_FPATH.value} {RIGHT_ARROW_ICON} {Paths.CHAD_DPATH.value}")
         Path(Paths.SYMLINK_FPATH.value).symlink_to(Paths.CHAD_DPATH.value)
+
     elif config_type == ConfigType.SB:
         if is_symlink_present:
             if str(Path(Paths.SYMLINK_FPATH.value).readlink()) == Paths.NVIM_DPATH.value:
@@ -110,6 +123,32 @@ def check_and_link(config_type: ConfigType) -> bool:
         # if the condition does not match, create the symlink
         print(f"{LINK_ICON} : Recreating link : {Paths.SYMLINK_FPATH.value} {RIGHT_ARROW_ICON} {Paths.NVIM_DPATH.value}")
         Path(Paths.SYMLINK_FPATH.value).symlink_to(Paths.NVIM_DPATH.value)
+
+    # check symlinks and re-link share, state and cache directories
+    if Path(Paths.SYMLINK_SHARE_FPATH.value).is_symlink():  # unlink share
+        print(f"{LINK_ICON} : Unlinking existing symlink at : {Paths.SYMLINK_SHARE_FPATH.value}")
+        Path(Paths.SYMLINK_SHARE_FPATH.value).unlink()
+    if Path(Paths.SYMLINK_STATE_FPATH.value).is_symlink():  # unlink state
+        print(f"{LINK_ICON} : Unlinking existing symlink at : {Paths.SYMLINK_STATE_FPATH.value}")
+        Path(Paths.SYMLINK_STATE_FPATH.value).unlink()
+    if Path(Paths.SYMLINK_CACHE_FPATH.value).is_symlink():  # unlink cache
+        print(f"{LINK_ICON} : Unlinking existing symlink at : {Paths.SYMLINK_CACHE_FPATH.value}")
+        Path(Paths.SYMLINK_CACHE_FPATH.value).unlink()
+
+    if config_type == ConfigType.CHAD:
+        print(f"{LINK_ICON} : Recreating link : {Paths.CHAD_SHARE_DPATH.value} {RIGHT_ARROW_ICON} {Paths.SYMLINK_SHARE_FPATH.value}")
+        Path(Paths.SYMLINK_SHARE_FPATH.value).symlink_to(Paths.CHAD_SHARE_DPATH.value)
+        print(f"{LINK_ICON} : Recreating link : {Paths.CHAD_STATE_DPATH.value} {RIGHT_ARROW_ICON} {Paths.SYMLINK_STATE_FPATH.value}")
+        Path(Paths.SYMLINK_STATE_FPATH.value).symlink_to(Paths.CHAD_STATE_DPATH.value)
+        print(f"{LINK_ICON} : Recreating link : {Paths.CHAD_CACHE_DPATH.value} {RIGHT_ARROW_ICON} {Paths.SYMLINK_CACHE_FPATH.value}")
+        Path(Paths.SYMLINK_CACHE_FPATH.value).symlink_to(Paths.CHAD_CACHE_DPATH.value)
+    elif config_type == ConfigType.SB:
+        print(f"{LINK_ICON} : Recreating link : {Paths.NVIM_SHARE_DPATH.value} {RIGHT_ARROW_ICON} {Paths.SYMLINK_SHARE_FPATH.value}")
+        Path(Paths.SYMLINK_SHARE_FPATH.value).symlink_to(Paths.NVIM_SHARE_DPATH.value)
+        print(f"{LINK_ICON} : Recreating link : {Paths.NVIM_STATE_DPATH.value} {RIGHT_ARROW_ICON} {Paths.SYMLINK_STATE_FPATH.value}")
+        Path(Paths.SYMLINK_STATE_FPATH.value).symlink_to(Paths.NVIM_STATE_DPATH.value)
+        print(f"{LINK_ICON} : Recreating link : {Paths.NVIM_CACHE_DPATH.value} {RIGHT_ARROW_ICON} {Paths.SYMLINK_CACHE_FPATH.value}")
+        Path(Paths.SYMLINK_CACHE_FPATH.value).symlink_to(Paths.NVIM_CACHE_DPATH.value)
 
     print(f"\n{CHECK_ICON} : Switching completed ...")
     return True
