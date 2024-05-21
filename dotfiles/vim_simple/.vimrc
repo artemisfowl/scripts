@@ -23,6 +23,7 @@ set nohidden
 set listchars=trail:.
 set completeopt=longest,menu
 set laststatus=2
+set cursorline
 
 let g:clipbrdDefaultReg = '+'
 
@@ -53,7 +54,7 @@ autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 set showcmd
 
 " Highlighting
-highlight MatchParen ctermbg=4
+highlight MatchParen cterm=bold ctermbg=10 ctermfg=0
 
 " Setting up the statusline
 set statusline=%t%m%r%h%w\ %=[%l,%c%V]\ [%p%%]
@@ -61,47 +62,81 @@ noremap <F6> :set list!<CR>
 
 " Setting the color column for specific file types
 augroup any
-        autocmd FileType * set tabstop=2 colorcolumn=200 shiftwidth=2 noexpandtab textwidth=199
+	autocmd FileType * set tabstop=2 colorcolumn=200 shiftwidth=2 noexpandtab textwidth=199
 augroup END
 
 augroup cc
-        autocmd BufRead,BufNewFile *.h,*.c set filetype=c
-        autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
+	autocmd BufRead,BufNewFile *.h,*.c set filetype=c
+	autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup cp
-        autocmd BufRead,BufNewFile *.hpp,*.cpp set filetype=cpp
-        autocmd FileType cpp set colorcolumn=120 tabstop=2 shiftwidth=2 noexpandtab nocursorcolumn textwidth=119
+	autocmd BufRead,BufNewFile *.hpp,*.cpp set filetype=cpp
+	autocmd FileType cpp set colorcolumn=120 tabstop=2 shiftwidth=2 noexpandtab nocursorcolumn textwidth=119
 augroup END
 
 augroup python
-        autocmd BufRead,BufNewFile *.py set filetype=python
-        autocmd FileType python set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
+	autocmd BufRead,BufNewFile *.py set filetype=python
+	autocmd FileType python set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup go
-        autocmd BufRead,BufNewFile *.go set filetype=go
-        autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
-				"autocmd CursorMoved * call s:ShowDoc()
-				"let timer = timer_start(5000, 'ShowDoc', {'repeat': -1})
+	autocmd BufRead,BufNewFile *.go set filetype=go
+	autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
+	"autocmd CursorMoved * call s:ShowDoc()
+	"let timer = timer_start(5000, 'ShowDoc', {'repeat': -1})
 augroup END
 
 augroup ruby
-        autocmd BufRead,BufNewFile *.rb set filetype=ruby
-        autocmd FileType ruby set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
+	autocmd BufRead,BufNewFile *.rb set filetype=ruby
+	autocmd FileType ruby set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup tex
-        autocmd BufRead,BufNewFile *.tex set filetype=tex
-        autocmd FileType tex set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
+	autocmd BufRead,BufNewFile *.tex set filetype=tex
+	autocmd FileType tex set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup lisp
-        autocmd BufRead,BufNewFile *.lisp set filetype=lisp
-        autocmd FileType lisp set colorcolumn=120 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=119
-				"autocmd FileType lisp let b:delimitMate_autoclose = 0
+	autocmd BufRead,BufNewFile *.lisp set filetype=lisp
+	autocmd FileType lisp set colorcolumn=120 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=119
+	"autocmd FileType lisp let b:delimitMate_autoclose = 0
 augroup END
 
 " Adding the time addition shortcut
 :nnoremap <F10> "=strftime("%a, %d %b %Y %H:%M:%S %z") . " : "<CR>P
 :inoremap <F10> <C-R>=strftime("%a, %d %b %Y %H:%M:%S %z") . " : "<CR>
+
+" group indent
+xnoremap < <gv
+xnoremap > >gv
+
+" For highlighting yanks
+function! FlashYankedText()
+	if (!exists('g:yankedTextMatches'))
+		let g:yankedTextMatches = []
+	endif
+
+	let matchId = matchadd('IncSearch', ".\\%>'\\[\\_.*\\%<']..")
+	let windowId = winnr()
+
+	call add(g:yankedTextMatches, [windowId, matchId])
+	call timer_start(700, 'DeleteTemporaryMatch')
+endfunction
+
+function! DeleteTemporaryMatch(timerId)
+	while !empty(g:yankedTextMatches)
+		let match = remove(g:yankedTextMatches, 0)
+		let windowID = match[0]
+		let matchID = match[1]
+
+		try
+			call matchdelete(matchID, windowID)
+		endtry
+	endwhile
+endfunction
+
+augroup highlightYankedText
+	autocmd!
+	autocmd TextYankPost * call FlashYankedText()
+augroup END
