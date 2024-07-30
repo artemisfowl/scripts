@@ -27,6 +27,61 @@ set cursorline
 
 let g:clipbrdDefaultReg = '+'
 
+" add the plugin section here
+call plug#begin()
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'preservim/nerdtree'
+
+call plug#end()
+
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" Remap enter while CocCompletion is open in order to get the recent selection
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
+
+" remap for complete to use tab and <cr>
+inoremap <silent><expr> <TAB>
+			\ coc#pum#visible() ? coc#pum#next(1):
+			\ <SID>check_back_space() ? "\<Tab>" :
+			\ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" CocCompletion color
+hi CocSearch ctermfg=12 guifg=#18A3FF
+hi CocMenuSel ctermbg=109 guibg=#13354A
+
+" Open NERDTree in the directory of the current file (or /home if no file is open)
+nmap <silent> <F4> :call NERDTreeToggleInCurDir()<cr>
+function! IsBlank( bufnr )
+    return (empty(bufname(a:bufnr)) &&
+    \ getbufvar(a:bufnr, '&modified') == 0 &&
+    \ empty(getbufvar(a:bufnr, '&buftype'))
+    \)
+endfunction
+function! NERDTreeToggleInCurDir()
+  " If NERDTree is open in the current buffer
+  if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+    exe ":NERDTreeClose"
+  else
+		" Check if a file is open
+		let l:nbuf = bufnr('')
+		if IsBlank(l:nbuf)
+			exe ":NERDTreeToggle"
+		else
+			exe ":NERDTreeFind"
+		endif
+  endif
+endfunction
+
 filetype plugin indent on
 syntax on
 
@@ -34,6 +89,7 @@ syntax on
 map H ^
 map L $
 nnoremap <C-t> <C-w><C-r>
+
 
 " Setting the colorscheme
 colorscheme sorbet
@@ -68,6 +124,11 @@ augroup END
 augroup cc
 	autocmd BufRead,BufNewFile *.h,*.c set filetype=c
 	autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
+augroup END
+
+augroup entry
+	autocmd BufRead,BufNewFile *.entry set filetype=diary
+	autocmd FileType diary set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
 augroup END
 
 augroup cp
@@ -143,29 +204,50 @@ augroup END
 
 " Checking if auto-suggestion works out
 set complete+=k
-set dictionary+=/usr/share/dict/words
+"set dictionary+=/usr/share/dict/words
 
 " Minimalist-TabComplete-Plugin
-inoremap <expr> <Tab> TabComplete()
-fun! TabComplete()
-	if getline('.')[col('.') - 2] =~ '\K' || pumvisible()
-		return "\<C-P>"
-	else
-		return "\<Tab>"
-	endif
-endfun
+"inoremap <expr> <Tab> TabComplete()
+"fun! TabComplete()
+	"if getline('.')[col('.') - 2] =~ '\K' || pumvisible()
+		"return "\<C-P>"
+	"else
+		"return "\<Tab>"
+	"endif
+"endfun
 
 " Minimalist-AutoCompletePop-Plugin
-set completeopt=menu,menuone,noinsert
-inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-autocmd InsertCharPre * call AutoComplete()
-fun! AutoComplete()
-	if v:char =~ '\K'
-				\ && getline('.')[col('.') - 4] !~ '\K'
-				\ && getline('.')[col('.') - 3] =~ '\K'
-				\ && getline('.')[col('.') - 2] =~ '\K' " last char
-				\ && getline('.')[col('.') - 1] !~ '\K'
+"set completeopt=menu,menuone,noinsert
+"inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+"autocmd InsertCharPre * call AutoComplete()
+"fun! AutoComplete()
+	"if v:char =~ '\K'
+				"\ && getline('.')[col('.') - 4] !~ '\K'
+				"\ && getline('.')[col('.') - 3] =~ '\K'
+				"\ && getline('.')[col('.') - 2] =~ '\K' " last char
+				"\ && getline('.')[col('.') - 1] !~ '\K'
 
-		call feedkeys("\<C-P>", 'n')
-	end
-endfun
+		"call feedkeys("\<C-P>", 'n')
+	"end
+"endfun
+
+" Adding a mapping for quickly moving up and down the file
+nnoremap <C-u> 20k
+nnoremap <C-d> 20j
+
+" Mapping for jumping to function definition under cursor
+nnoremap <F7> <ESC>:call CocActionAsync('jumpDefinition', 'vsplit')<CR>
+
+" Checking if the cursor could be changed
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
+" Note: anything following this note is for the user
+" To search for something and open the same in the quickfix window, use the following command:
+" :cex system('<command>') | copen
+" for example, finding all the fixme(s) in this file and below this section
+" :cex system('grep -rn "fixme:" .') | copen
+
+" Lua plugin related configurations
+lua << END
+END
