@@ -18,11 +18,14 @@ vim.opt.number = true
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 
+vim.opt.autoindent = true
+vim.opt.smartcase = true
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
-vim.opt.showmode = false
+vim.opt.showmode = true
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
@@ -70,6 +73,8 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+vim.bo.swapfile = false
+vim.opt.tags = 'tags'
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -83,6 +88,9 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+-- Swap the open panes
+vim.keymap.set('n', '<C-t>', '<C-w><C-r>') -- Swap the splits
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -145,6 +153,12 @@ vim.cmd [[
 	let g:gitblame_delay = 10 " 10 milliseconds
 ]]
 
+vim.cmd [[
+  filetype plugin indent on
+  syntax enable
+  set grepprg=grep\ -nH\ $*
+]]
+
 -- show branch information in the status line if branch information is present
 vim.cmd [[
 	function! StatuslineGitBranch()
@@ -173,6 +187,12 @@ vim.cmd [[
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+
+-- remove any trailing whitespace in the lines
+vim.cmd [[
+	" Remove any trailing whitespace that is in the file
+	autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
+]]
 
 -- Augroups and related settings
 vim.cmd [[
@@ -275,6 +295,66 @@ require('lazy').setup({
   -- keys can be used to configure plugin behavior/loading/etc.
   --
   -- Use `opts = {}` to force a plugin to be loaded.
+  {
+    'nvim-tree/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup {
+        -- your personnal icons can go here (to override)
+        -- you can specify color or cterm_color instead of specifying both of them
+        -- DevIcon will be appended to `name`
+        override = {
+          zsh = {
+            icon = '',
+            color = '#428850',
+            cterm_color = '65',
+            name = 'Zsh',
+          },
+        },
+        -- globally enable different highlight colors per icon (default to true)
+        -- if set to false all icons will have the default icon's color
+        color_icons = true,
+        -- globally enable default icons (default to false)
+        -- will get overriden by `get_icons` option
+        default = true,
+        -- globally enable "strict" selection of icons - icon will be looked up in
+        -- different tables, first by filename, and if not found by extension; this
+        -- prevents cases when file doesn't have any extension but still gets some icon
+        -- because its name happened to match some extension (default to false)
+        strict = true,
+        -- set the light or dark variant manually, instead of relying on `background`
+        -- (default to nil)
+        variant = 'light|dark',
+        -- same as `override` but specifically for overrides by filename
+        -- takes effect when `strict` is true
+        override_by_filename = {
+          ['.gitignore'] = {
+            icon = '',
+            color = '#f1502f',
+            name = 'Gitignore',
+          },
+        },
+        -- same as `override` but specifically for overrides by extension
+        -- takes effect when `strict` is true
+        override_by_extension = {
+          ['log'] = {
+            icon = '',
+            color = '#81e043',
+            name = 'Log',
+          },
+        },
+        -- same as `override` but specifically for operating system
+        -- takes effect when `strict` is true
+        override_by_operating_system = {
+          ['apple'] = {
+            icon = '',
+            color = '#A2AAAD',
+            cterm_color = '248',
+            name = 'Apple',
+          },
+        },
+      }
+    end,
+  },
 
   -- For commenting lines properly
   {
@@ -891,48 +971,48 @@ require('lazy').setup({
     end,
   },
 
-  { -- Autoformat
-    'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
-    cmd = { 'ConformInfo' },
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
-        end,
-        mode = '',
-        desc = '[F]ormat buffer',
-      },
-    },
-    opts = {
-      notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        local lsp_format_opt
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          lsp_format_opt = 'never'
-        else
-          lsp_format_opt = 'fallback'
-        end
-        return {
-          timeout_ms = 500,
-          lsp_format = lsp_format_opt,
-        }
-      end,
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
-      },
-    },
-  },
+  -- { -- Autoformat
+  --   'stevearc/conform.nvim',
+  --   event = { 'BufWritePre' },
+  --   cmd = { 'ConformInfo' },
+  --   keys = {
+  --     {
+  --       '<leader>f',
+  --       function()
+  --         require('conform').format { async = true, lsp_format = 'fallback' }
+  --       end,
+  --       mode = '',
+  --       desc = '[F]ormat buffer',
+  --     },
+  --   },
+  --   opts = {
+  --     notify_on_error = false,
+  --     format_on_save = function(bufnr)
+  --       -- Disable "format_on_save lsp_fallback" for languages that don't
+  --       -- have a well standardized coding style. You can add additional
+  --       -- languages here or re-enable it for the disabled ones.
+  --       local disable_filetypes = { c = true, cpp = true }
+  --       local lsp_format_opt
+  --       if disable_filetypes[vim.bo[bufnr].filetype] then
+  --         lsp_format_opt = 'never'
+  --       else
+  --         lsp_format_opt = 'fallback'
+  --       end
+  --       return {
+  --         timeout_ms = 500,
+  --         lsp_format = lsp_format_opt,
+  --       }
+  --     end,
+  --     formatters_by_ft = {
+  --       lua = { 'stylua' },
+  --       -- Conform can also run multiple formatters sequentially
+  --       -- python = { "isort", "black" },
+  --       --
+  --       -- You can use 'stop_after_first' to run the first available formatter from the list
+  --       -- javascript = { "prettierd", "prettier", stop_after_first = true },
+  --     },
+  --   },
+  -- },
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
