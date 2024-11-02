@@ -33,6 +33,9 @@ call plug#begin()
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'preservim/nerdtree'
+Plug 'preservim/tagbar'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
@@ -85,11 +88,13 @@ endfunction
 filetype plugin indent on
 syntax on
 
+" Configuration for tagbar
+nnoremap <F7> :TagbarToggle<CR>
+
 " Basic mapping of keys
 map H ^
 map L $
 nnoremap <C-t> <C-w><C-r>
-
 
 " Setting the colorscheme
 colorscheme sorbet
@@ -115,6 +120,7 @@ highlight MatchParen cterm=bold ctermbg=10 ctermfg=0
 " Setting up the statusline
 set statusline=%t%m%r%h%w\ %=[%l,%c%V]\ [%p%%]
 noremap <F6> :set list!<CR>
+highlight clear statusline
 
 " Setting the color column for specific file types
 augroup any
@@ -123,44 +129,44 @@ augroup END
 
 augroup cc
 	autocmd BufRead,BufNewFile *.h,*.c set filetype=c
-	autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
+	autocmd FileType c set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab cursorcolumn textwidth=79
 augroup END
 
 augroup entry
 	autocmd BufRead,BufNewFile *.entry set filetype=diary
-	autocmd FileType diary set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
+	autocmd FileType diary set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab cursorcolumn textwidth=79
 augroup END
 
 augroup cp
 	autocmd BufRead,BufNewFile *.hpp,*.cpp set filetype=cpp
-	autocmd FileType cpp set colorcolumn=120 tabstop=2 shiftwidth=2 noexpandtab nocursorcolumn textwidth=119
+	autocmd FileType cpp set colorcolumn=120 tabstop=2 shiftwidth=2 noexpandtab cursorcolumn textwidth=119
 augroup END
 
 augroup python
 	autocmd BufRead,BufNewFile *.py set filetype=python
-	autocmd FileType python set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
+	autocmd FileType python set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab cursorcolumn textwidth=79
 augroup END
 
 augroup go
 	autocmd BufRead,BufNewFile *.go set filetype=go
-	autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
+	autocmd FileType go set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab cursorcolumn textwidth=79
 	"autocmd CursorMoved * call s:ShowDoc()
 	"let timer = timer_start(5000, 'ShowDoc', {'repeat': -1})
 augroup END
 
 augroup ruby
 	autocmd BufRead,BufNewFile *.rb set filetype=ruby
-	autocmd FileType ruby set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=79
+	autocmd FileType ruby set colorcolumn=80 tabstop=8 shiftwidth=8 noexpandtab cursorcolumn textwidth=79
 augroup END
 
 augroup tex
 	autocmd BufRead,BufNewFile *.tex set filetype=tex
-	autocmd FileType tex set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab nocursorcolumn textwidth=79
+	autocmd FileType tex set colorcolumn=80 tabstop=4 shiftwidth=4 noexpandtab cursorcolumn textwidth=79
 augroup END
 
 augroup lisp
 	autocmd BufRead,BufNewFile *.lisp set filetype=lisp
-	autocmd FileType lisp set colorcolumn=120 tabstop=8 shiftwidth=8 noexpandtab nocursorcolumn textwidth=119
+	autocmd FileType lisp set colorcolumn=120 tabstop=8 shiftwidth=8 noexpandtab cursorcolumn textwidth=119
 	"autocmd FileType lisp let b:delimitMate_autoclose = 0
 augroup END
 
@@ -235,12 +241,22 @@ set complete+=k
 nnoremap <C-u> 20k
 nnoremap <C-d> 20j
 
-" Mapping for jumping to function definition under cursor
-nnoremap <F7> <ESC>:call CocActionAsync('jumpDefinition', 'vsplit')<CR>
-
 " Checking if the cursor could be changed
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
+
+" Moving the lines up and down (visual and normal mode)
+" [Visual mode]
+" move selected lines up one line
+xnoremap <C-p>  :m-2<CR>gv=gv
+" move selected lines down one line
+xnoremap <C-n> :m'>+<CR>gv=gv
+
+" [Normal mode]
+" move current line up one line
+nnoremap <C-p>  :<C-u>m-2<CR>==
+" move current line down one line
+nnoremap <C-n> :<C-u>m+<CR>==
 
 " Note: anything following this note is for the user
 " To search for something and open the same in the quickfix window, use the following command:
