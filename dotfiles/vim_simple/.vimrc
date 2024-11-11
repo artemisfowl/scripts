@@ -31,11 +31,14 @@ let g:clipbrdDefaultReg = '+'
 call plug#begin()
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'preservim/nerdtree'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
@@ -97,7 +100,8 @@ map L $
 nnoremap <C-t> <C-w><C-r>
 
 " Setting the colorscheme
-colorscheme sorbet
+" colorscheme sorbet
+colorscheme catppuccin_mocha
 
 " More navigation mappings
 nnoremap <C-j> <C-w>j
@@ -266,6 +270,10 @@ nnoremap <S-j> :<C-u>m+<CR>==
 " :cex system('<command>') | copen
 " for example, finding all the fixme(s) in this file and below this section
 " :cex system('grep -rn "fixme:" .') | copen
+
+" Trying out fuzzy finding in vim
+nnoremap <C-f> :Files
+nnoremap <C-p> :Buffers<CR>
 
 " Lua plugin related configurations
 lua << END
