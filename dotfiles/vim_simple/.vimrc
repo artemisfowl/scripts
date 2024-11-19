@@ -38,7 +38,8 @@ Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'machakann/vim-highlightedyank'
+" Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
@@ -100,8 +101,8 @@ map L $
 nnoremap <C-t> <C-w><C-r>
 
 " Setting the colorscheme
-" colorscheme sorbet
-colorscheme catppuccin_mocha
+colorscheme sorbet
+" colorscheme catppuccin_frappe
 
 " More navigation mappings
 nnoremap <C-j> <C-w>j
@@ -118,11 +119,39 @@ autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 " This shows what you are typing as a command.  I love this!
 set showcmd
 
-" Highlighting
+" Parentheses highlighting
 highlight MatchParen cterm=bold ctermbg=10 ctermfg=0
 
+" Visual hilight mode
+hi Visual cterm=bold ctermbg=white ctermfg=black
+
+" Search highlighting
+hi Search cterm=bold ctermbg=grey ctermfg=black
+
 " Setting up the statusline
-set statusline=%t%m%r%h%w\ %=[%l,%c%V]\ [%p%%]
+function! StatuslineGitBranch()
+	let b:gitbranch=""
+	if &modifiable
+		try
+			lcd %:p:h
+		catch
+			return
+		endtry
+		let l:gitrevparse=system("git rev-parse --abbrev-ref HEAD")
+		lcd -
+		if l:gitrevparse!~"fatal: not a git repository"
+			let b:gitbranch="[".substitute(l:gitrevparse, '\n', '', 'g')."]"
+		endif
+	endif
+endfunction
+
+augroup GetGitBranch
+	autocmd!
+	autocmd VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
+augroup END
+
+set statusline=\ %f%m%r%h%w\ %{b:gitbranch}\ %=%({%{&ff}\|%{(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\")}%k\|%Y}%)\ %([%l,%v][%p%%]\ %)
+" set statusline=%t%m%r%h%w\ %=[%l,%c%V]\ [%p%%]
 noremap <F6> :set list!<CR>
 highlight clear statusline
 
@@ -183,34 +212,37 @@ xnoremap < <gv
 xnoremap > >gv
 
 " For highlighting yanks
-function! FlashYankedText()
-	if (!exists('g:yankedTextMatches'))
-		let g:yankedTextMatches = []
-	endif
+let g:highlightedyank_highlight_duration = 1000
+highlight HighlightedyankRegion cterm=reverse gui=reverse
 
-	let matchId = matchadd('IncSearch', ".\\%>'\\[\\_.*\\%<']..")
-	let windowId = winnr()
+" function! FlashYankedText()
+" 	if (!exists('g:yankedTextMatches'))
+" 		let g:yankedTextMatches = []
+" 	endif
 
-	call add(g:yankedTextMatches, [windowId, matchId])
-	call timer_start(700, 'DeleteTemporaryMatch')
-endfunction
+" 	let matchId = matchadd('IncSearch', ".\\%>'\\[\\_.*\\%<']..")
+" 	let windowId = winnr()
 
-function! DeleteTemporaryMatch(timerId)
-	while !empty(g:yankedTextMatches)
-		let match = remove(g:yankedTextMatches, 0)
-		let windowID = match[0]
-		let matchID = match[1]
+" 	call add(g:yankedTextMatches, [windowId, matchId])
+" 	call timer_start(700, 'DeleteTemporaryMatch')
+" endfunction
 
-		try
-			call matchdelete(matchID, windowID)
-		endtry
-	endwhile
-endfunction
+" function! DeleteTemporaryMatch(timerId)
+" 	while !empty(g:yankedTextMatches)
+" 		let match = remove(g:yankedTextMatches, 0)
+" 		let windowID = match[0]
+" 		let matchID = match[1]
 
-augroup highlightYankedText
-	autocmd!
-	autocmd TextYankPost * call FlashYankedText()
-augroup END
+" 		try
+" 			call matchdelete(matchID, windowID)
+" 		endtry
+" 	endwhile
+" endfunction
+
+" augroup highlightYankedText
+" 	autocmd!
+" 	autocmd TextYankPost * call FlashYankedText()
+" augroup END
 
 " Checking if auto-suggestion works out
 set complete+=k
@@ -274,6 +306,9 @@ nnoremap <S-j> :<C-u>m+<CR>==
 " Trying out fuzzy finding in vim
 nnoremap <C-f> :Files
 nnoremap <C-p> :Buffers<CR>
+
+" Setting the shortmessage for showing search count
+set shortmess-=S
 
 " Lua plugin related configurations
 lua << END
